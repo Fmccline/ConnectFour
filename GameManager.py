@@ -4,6 +4,7 @@ from GameBoardView import GameBoardView
 from Game import Game
 from Player import Player
 from HumanPlayer import HumanPlayer
+from WinnerCalculator import WinnerCalculator
 
 
 class GameManager:
@@ -17,6 +18,7 @@ class GameManager:
         self.red_player = HumanPlayer(Player.RED_PLAYER, self.game_board_view)
         self.black_player = HumanPlayer(Player.BLACK_PLAYER, self.game_board_view)
         self.game = Game(self.game_board, self.red_player, self.black_player)
+        self.winner_calculator = WinnerCalculator(self.game_board)
 
     def make_window(self):
         window = Tk()
@@ -37,7 +39,7 @@ class GameManager:
             game_board_view.update_board()
             window.update_idletasks()
             window.update()
-            if game.is_winner(current_player):
+            if self.winner_calculator.is_winner(current_player, game_board):
                 title = 'Winner!'
                 message = current_player.name + " wins!"
                 messagebox.showinfo(title, message)
