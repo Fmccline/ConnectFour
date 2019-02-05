@@ -31,14 +31,13 @@ class GameBoard:
     def get_red_pieces(self):
         return self.red_pieces
 
-    def get_first_empty_row(self, column):
-        pieces = self.pieces
-        for row in range(len(pieces[column])):
-            if pieces[column][row] == GameBoard.EMPTY_PIECE:
-                return row
-        return None
+    def make_move(self, column, player_color):
+        if column < 0 or column >= self.num_columns:
+            return False
+        row = self.get_first_empty_row(column)
+        if row is None:
+            return False
 
-    def make_move(self, column, row, player_color):
         self.pieces[column][row] = player_color
         if player_color == self.RED_PIECE:
             self.red_pieces += 1
@@ -46,6 +45,14 @@ class GameBoard:
             self.black_pieces += 1
         else:
             raise Exception('Player color is neither black of red in make_move. Color is ' + str(player_color))
+        return True
+
+    def get_first_empty_row(self, column):
+        pieces = self.pieces
+        for row in range(self.num_rows):
+            if pieces[column][row] == GameBoard.EMPTY_PIECE:
+                return row
+        return None
 
     def print_board(self):
         pieces = self.pieces
@@ -56,3 +63,9 @@ class GameBoard:
 
     def get_board_size(self):
         return self.num_columns, self.num_rows
+
+    def is_full_board(self):
+        total_pieces = self.red_pieces + self.black_pieces
+        board_size = self.num_columns * self.num_rows
+        return total_pieces >= board_size
+

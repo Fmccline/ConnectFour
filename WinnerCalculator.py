@@ -42,25 +42,38 @@ class WinnerCalculator:
         return False
 
     def is_horizontal_win(self, player):
-        played_pieces = player.get_played_pieces()
-        for row_num in range(self.total_rows):
-            consecutive_pieces = 0
-            for col_num in range(self.total_columns):
-                piece = self.pieces[col_num][row_num]
-                if piece == player.color:
-                    played_pieces -= 1
-                    consecutive_pieces += 1
-                    if consecutive_pieces >= 4:
-                        return True
-                    if played_pieces + consecutive_pieces < 4:
-                        return False
-                else:
-                    consecutive_pieces = 0
+        color = player.color
+        # Run through the 4th because it must contain one of the winning pieces
+        column = 3
+        for row in range(self.total_rows):
+            if self.pieces[column][row] == color:
+                west = self.get_west_pieces(color, column, row)
+                east = self.get_east_pieces(color, column, row)
+                total = west + 1 + east
+                if total >= 4:
+                    return True
         return False
 
+    def get_west_pieces(self, color, column, row):
+        consecutive_pieces = 0
+        for column_num in reversed(range(0, column)):
+            if self.pieces[column_num][row] == color:
+                consecutive_pieces += 1
+            else:
+                break
+        return consecutive_pieces
+
+    def get_east_pieces(self, color, column, row):
+        consecutive_pieces = 0
+        for column_num in range(column+1, self.total_columns):
+            if self.pieces[column_num][row] == color:
+                consecutive_pieces += 1
+            else:
+                break
+        return consecutive_pieces
+
     def is_diagonal_win(self, player):
-        # Rows 3 and 4 must contain one of the winning pieces in a diagonal win
-        # I chose to use row 3 arbitrarily
+        # The 4th row must contain one of the winning pieces in a diagonal win
         row = 3
         for column in range(0, self.total_columns):
             if self.pieces[column][row] == player.color:

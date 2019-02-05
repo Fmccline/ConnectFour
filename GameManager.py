@@ -16,9 +16,11 @@ class GameManager:
         self.window = self.make_window()
         self.make_title_view()
         self.red_player_selection = PlayerSelectionView(self.window, Player.RED_PLAYER)
-        self.black_player_selection = PlayerSelectionView(self.window, Player.RED_PLAYER)
+        self.black_player_selection = PlayerSelectionView(self.window, Player.BLACK_PLAYER)
         self.start_button = Button(self.window, text='New Game', command=self.new_game)
         self.start_button.pack()
+        self.current_turn_view = Label(self.window, text="Turn: N/A")
+        self.current_turn_view.pack()
         self.game_board = GameBoard(self.NUM_COLUMNS, self.NUM_ROWS)
         self.game_board_view = GameBoardView(self.window, self.game_board)
         self.new_game = False
@@ -48,11 +50,17 @@ class GameManager:
                 self.game = self.start_game()
             if self.game is not None:
                 current_player = self.game.current_player
+                self.current_turn_view.config(text="Turn: " + current_player.name)
                 self.game.take_turn()
                 game_board_view.update_board()
                 if self.winner_calculator.is_winner(current_player, game_board):
                     title = 'Winner!'
                     message = current_player.name + " wins!"
+                    messagebox.showinfo(title, message)
+                    game_board.reset_board()
+                elif self.game_board.is_full_board():
+                    title = 'Draw!'
+                    message = 'It was a draw!'
                     messagebox.showinfo(title, message)
                     game_board.reset_board()
             window.update_idletasks()
