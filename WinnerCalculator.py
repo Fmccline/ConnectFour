@@ -89,7 +89,6 @@ class WinnerCalculator:
                 break
         return consecutive_pieces
 
-
     def get_sw_pieces(self, player, column_num, row_num):
         consecutive_pieces = 0
         column = column_num
