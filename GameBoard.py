@@ -22,22 +22,21 @@ class GameBoard:
                 column.append(self.EMPTY_PIECE)
             self.pieces.append(column)
 
-    def get_pieces(self):
-        return self.pieces
-
-    def get_black_pieces(self):
-        return self.black_pieces
-
-    def get_red_pieces(self):
-        return self.red_pieces
-
-    def make_move(self, column, player_color):
+    def can_make_move(self, column):
         if column < 0 or column >= self.num_columns:
             return False
-        row = self.get_first_empty_row(column)
-        if row is None:
-            return False
+        top_row = self.num_rows - 1
+        return self.pieces[column][top_row] == self.EMPTY_PIECE
 
+    def get_all_possible_moves(self):
+        moves = []
+        for column in range(self.num_columns):
+            if self.can_make_move(column):
+                moves.append(column)
+        return moves
+
+    def make_move(self, column, player_color):
+        row = self.get_first_empty_row(column)
         self.pieces[column][row] = player_color
         if player_color == self.RED_PIECE:
             self.red_pieces += 1
@@ -45,7 +44,6 @@ class GameBoard:
             self.black_pieces += 1
         else:
             raise Exception('Player color is neither black of red in make_move. Color is ' + str(player_color))
-        return True
 
     def get_first_empty_row(self, column):
         pieces = self.pieces
@@ -61,11 +59,33 @@ class GameBoard:
                 print(str(pieces[x][y]) + ' ', end='')
             print()
 
-    def get_board_size(self):
-        return self.num_columns, self.num_rows
-
     def is_full_board(self):
         total_pieces = self.red_pieces + self.black_pieces
         board_size = self.num_columns * self.num_rows
         return total_pieces >= board_size
 
+    def get_pieces(self):
+        return self.pieces
+
+    def get_played_pieces(self, color):
+        if color == self.RED_PIECE:
+            return self.get_red_pieces()
+        elif color == self.BLACK_PIECE:
+            return self.get_black_pieces()
+        else:
+            raise Exception(f"Invalid color type {color} in get_played_pieces")
+
+    def get_black_pieces(self):
+        return self.black_pieces
+
+    def get_red_pieces(self):
+        return self.red_pieces
+
+    def get_num_columns(self):
+        return self.num_columns
+
+    def get_num_rows(self):
+        return self.num_rows
+
+    def get_board_size(self):
+        return self.get_num_columns(), self.get_num_rows()

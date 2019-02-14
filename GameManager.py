@@ -25,7 +25,6 @@ class GameManager:
         self.game_board_view = GameBoardView(self.window, self.game_board)
         self.new_game = False
         self.game = None
-        self.winner_calculator = WinnerCalculator(self.game_board)
 
     def make_window(self):
         window = Tk()
@@ -51,9 +50,9 @@ class GameManager:
             if self.game is not None:
                 current_player = self.game.current_player
                 self.current_turn_view.config(text="Turn: " + current_player.name)
-                self.game.take_turn()
+                winner = self.game.take_turn()
                 game_board_view.update_board()
-                if self.winner_calculator.is_winner(current_player, game_board):
+                if winner is not None:
                     title = 'Winner!'
                     message = current_player.name + " wins!"
                     messagebox.showinfo(title, message)

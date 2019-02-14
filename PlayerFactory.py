@@ -1,3 +1,4 @@
+from HeuristicPlayer import HeuristicPlayer
 from HumanPlayer import HumanPlayer
 from PlayerSelectionView import PlayerSelectionView
 from RandomPlayer import RandomPlayer
@@ -12,6 +13,8 @@ class PlayerFactory:
             return HumanPlayer(color, game_board_view)
         elif player_type == PlayerSelectionView.RANDOM:
             return RandomPlayer(color, game_board)
+        elif player_type == PlayerSelectionView.HEURISTIC:
+            return HeuristicPlayer(color, game_board)
         else:
             raise Exception("Invalid player type :O " + str(player_type))
 

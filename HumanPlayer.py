@@ -9,8 +9,9 @@ class HumanPlayer(Player):
 
     def take_turn(self):
         column = self.game_board_view.get_clicked_column()
-        if column is not None:
-            return self.game_board.make_move(column, self.color)
+        if column is not None and self.game_board.can_make_move(column):
+            self.game_board.make_move(column, self.color)
+            return True
         else:
             return False
 
