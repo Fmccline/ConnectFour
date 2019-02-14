@@ -43,11 +43,15 @@ class GameManager:
         game_board = self.game_board
         game_board_view = self.game_board_view
         window = self.window
+        is_playing = False
         while True:
             if self.new_game:
                 self.new_game = False
+                game_board.reset_board()
                 self.game = self.start_game()
-            if self.game is not None:
+                is_playing = True
+                game_board_view.update_board()
+            if is_playing:
                 current_player = self.game.current_player
                 self.current_turn_view.config(text="Turn: " + current_player.name)
                 winner = self.game.take_turn()
@@ -56,12 +60,12 @@ class GameManager:
                     title = 'Winner!'
                     message = current_player.name + " wins!"
                     messagebox.showinfo(title, message)
-                    game_board.reset_board()
+                    is_playing = False
                 elif self.game_board.is_full_board():
                     title = 'Draw!'
                     message = 'It was a draw!'
                     messagebox.showinfo(title, message)
-                    game_board.reset_board()
+                    is_playing = False
             window.update_idletasks()
             window.update()
 
