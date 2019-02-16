@@ -42,10 +42,10 @@ class GameBoard:
             self.red_pieces += 1
         elif player_color == self.BLACK_PIECE:
             self.black_pieces += 1
-        else:
-            raise Exception('Player color is neither black of red in make_move. Color is ' + str(player_color))
 
     def get_first_empty_row(self, column):
+        if column is None:
+            raise Exception("Column cannot be None!")
         pieces = self.pieces
         for row in range(self.num_rows):
             if pieces[column][row] == GameBoard.EMPTY_PIECE:

@@ -1,6 +1,4 @@
 from GameBoard import GameBoard
-from Player import Player
-from PlayerFactory import PlayerFactory
 from WinnerCalculator import WinnerCalculator
 
 
@@ -13,11 +11,11 @@ class Game:
         self.red_player = red_player
         self.black_player = black_player
         self.current_player = self.red_player
-        self.winner_calculator = WinnerCalculator(game_board)
+        self.winner_calculator = WinnerCalculator()
 
     def take_turn(self):
         current_player = self.current_player
-        turn_taken = current_player.take_turn()
+        turn_taken = current_player.take_turn(self.game_board)
         if turn_taken is True:
             if self.is_winner(current_player):
                 return self.current_player

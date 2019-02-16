@@ -3,14 +3,15 @@ from GameBoard import GameBoard
 
 class WinnerCalculator:
 
-    def __init__(self, game_board):
-        self.game_board = game_board
-        self.pieces = game_board.get_pieces()
-        self.total_columns, self.total_rows = game_board.get_board_size()
+    def __init__(self):
+        self.game_board = None
+        self.pieces = None
+        self.total_columns, self.total_rows = 0, 0
 
     def is_winner(self, color, game_board):
         self.game_board = game_board
         self.pieces = game_board.get_pieces()
+        self.total_columns, self.total_rows = game_board.get_board_size()
         if self.is_vertical_win(color):
             return True
         elif self.is_horizontal_win(color):

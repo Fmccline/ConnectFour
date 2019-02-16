@@ -1,11 +1,5 @@
-from tkinter import Tk, Label, messagebox, Button
 from GameBoard import GameBoard
-from GameBoardView import GameBoardView
 from Game import Game
-from Player import Player
-from PlayerFactory import PlayerFactory
-from PlayerSelectionView import PlayerSelectionView
-from WinnerCalculator import WinnerCalculator
 
 
 class GameManager:
@@ -13,67 +7,38 @@ class GameManager:
     NUM_ROWS = 6
 
     def __init__(self):
-        self.window = self.make_window()
-        self.make_title_view()
-        self.red_player_selection = PlayerSelectionView(self.window, Player.RED_PLAYER)
-        self.black_player_selection = PlayerSelectionView(self.window, Player.BLACK_PLAYER)
-        self.start_button = Button(self.window, text='New Game', command=self.new_game)
-        self.start_button.pack()
-        self.current_turn_view = Label(self.window, text="Turn: N/A")
-        self.current_turn_view.pack()
         self.game_board = GameBoard(self.NUM_COLUMNS, self.NUM_ROWS)
-        self.game_board_view = GameBoardView(self.window, self.game_board)
-        self.new_game = False
+        self.playing = False
         self.game = None
+        self.current_player = None
+        self.winner = None
 
-    def make_window(self):
-        window = Tk()
-        window.title("Connect Four")
-        window.geometry('960x600')
-        return window
+    def start_new_game(self, red_player, black_player):
+        self.game_board.reset_board()
+        self.game = Game(self.game_board, red_player, black_player)
+        self.current_player = self.game.current_player
+        self.playing = True
+        self.winner = None
 
-    def make_title_view(self):
-        title_label = Label(self.window, text='Connect FooooR')
-        title_label.pack()
+    def play_turn(self):
+        if not self.playing:
+            return
 
-    def new_game(self):
-        self.new_game = True
+        self.winner = self.game.take_turn()
+        if self.winner is not None:
+            self.playing = False
+        elif self.game_board.is_full_board():
+            self.playing = False
 
-    def main_loop(self):
-        game_board = self.game_board
-        game_board_view = self.game_board_view
-        window = self.window
-        is_playing = False
-        while True:
-            if self.new_game:
-                self.new_game = False
-                game_board.reset_board()
-                self.game = self.start_game()
-                is_playing = True
-                game_board_view.update_board()
-            if is_playing:
-                current_player = self.game.current_player
-                self.current_turn_view.config(text="Turn: " + current_player.name)
-                winner = self.game.take_turn()
-                game_board_view.update_board()
-                if winner is not None:
-                    title = 'Winner!'
-                    message = current_player.name + " wins!"
-                    messagebox.showinfo(title, message)
-                    is_playing = False
-                elif self.game_board.is_full_board():
-                    title = 'Draw!'
-                    message = 'It was a draw!'
-                    messagebox.showinfo(title, message)
-                    is_playing = False
-            window.update_idletasks()
-            window.update()
+    def is_playing(self):
+        return self.playing
 
-    def start_game(self):
-        red_player_type = self.red_player_selection.get_player_from_selection()
-        black_player_type = self.black_player_selection.get_player_from_selection()
-        red_player = PlayerFactory.make_player(red_player_type, Player.RED_PLAYER, self.game_board_view)
-        black_player = PlayerFactory.make_player(black_player_type, Player.BLACK_PLAYER, self.game_board_view)
-        game = Game(self.game_board, red_player, black_player)
-        return game
+    def get_winner(self):
+        return self.winner
+
+    def is_draw(self):
+        return self.winner is None
+
+    def get_current_player(self):
+        return self.game.current_player
 

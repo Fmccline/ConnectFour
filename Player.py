@@ -11,5 +11,5 @@ class Player:
         self.name = 'RED' if color == self.RED_PLAYER else 'BLACK'
         pass
 
-    def take_turn(self):
+    def take_turn(self, game_board):
         pass

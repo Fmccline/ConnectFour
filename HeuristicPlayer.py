@@ -13,11 +13,12 @@ class HeuristicPlayer(Player):
         super().__init__(color, game_board)
         self.num_columns, self.num_rows = self.game_board.get_board_size()
         self.evaluator = HeuristicEvaluator(self.game_board, color)
-        self.winner_calculator = WinnerCalculator(self.game_board)
+        self.winner_calculator = WinnerCalculator()
 
-    def take_turn(self):
+    def take_turn(self, game_board):
+        self.game_board = game_board
         best_move, score = self.get_best_move_and_score()
-        self.game_board.make_move(best_move, self.color)
+        game_board.make_move(best_move, self.color)
         print(f"Best move: ({best_move}, {score})")
         return True
 
