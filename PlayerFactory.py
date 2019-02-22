@@ -1,7 +1,7 @@
-from MinimaxAgent import MinimaxAgent
-from HumanAgent import HumanAgent
+from Agents.MinimaxAgent import MinimaxAgent
+from Agents.HumanAgent import HumanAgent
 from PlayerSelectionView import PlayerSelectionView
-from RandomAgent import RandomAgent
+from Agents.RandomAgent import RandomAgent
 
 
 class PlayerFactory:

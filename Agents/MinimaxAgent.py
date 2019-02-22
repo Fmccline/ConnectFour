@@ -1,7 +1,7 @@
 import copy
 
 from HeuristicEvaluator import HeuristicEvaluator
-from Agent import Agent
+from Agents.Agent import Agent
 from WinnerCalculator import WinnerCalculator
 
 

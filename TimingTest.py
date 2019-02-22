@@ -3,8 +3,8 @@ import time
 import random
 
 from GameManager import GameManager
-from MinimaxAgent import MinimaxAgent
-from Agent import Agent
+from Agents.MinimaxAgent import MinimaxAgent
+from Agents.Agent import Agent
 from GameBoard import GameBoard
 from HeuristicEvaluator import HeuristicEvaluator
 from WinnerCalculator import WinnerCalculator

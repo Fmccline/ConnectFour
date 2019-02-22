@@ -2,7 +2,7 @@ from tkinter import Button, Label, Tk, messagebox
 
 from GameBoardView import GameBoardView
 from GameManager import GameManager
-from Agent import Agent
+from Agents.Agent import Agent
 from PlayerFactory import PlayerFactory
 from PlayerSelectionView import PlayerSelectionView
 

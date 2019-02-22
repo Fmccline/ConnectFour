@@ -1,6 +1,6 @@
 from tkinter import Tk, StringVar, OptionMenu, Frame, LEFT, Label
 
-from Agent import Agent
+from Agents.Agent import Agent
 
 
 class PlayerSelectionView:
