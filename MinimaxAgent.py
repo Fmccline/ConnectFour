@@ -39,7 +39,7 @@ class MinimaxAgent(Agent):
             new_board = copy.deepcopy(game_board)
             new_board.make_move(move, color)
             starting_move = move if original_move is None else original_move
-            if self.winner_calculator.is_winner(color, new_board):
+            if self.winner_calculator.is_winner(color, new_board, move):
                 player_modifier = 1 if color == self.color else -1
                 board_score = HeuristicEvaluator.WINNING_VALUE * player_modifier
                 return starting_move, board_score

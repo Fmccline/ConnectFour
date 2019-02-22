@@ -1,6 +1,3 @@
-from GameBoard import GameBoard
-
-
 class WinnerCalculator:
 
     def __init__(self):
@@ -8,48 +5,38 @@ class WinnerCalculator:
         self.pieces = None
         self.total_columns, self.total_rows = 0, 0
 
-    def is_winner(self, color, game_board):
+    def is_winner(self, color, game_board, column):
         self.game_board = game_board
         self.pieces = game_board.get_pieces()
         self.total_columns, self.total_rows = game_board.get_board_size()
-        if self.is_vertical_win(color):
-            return True
-        elif self.is_horizontal_win(color):
-            return True
-        elif self.is_diagonal_win(color):
-            return True
-        else:
-            return False
+        row = self.get_row(column)
+        is_vertical_win = self.is_vertical_winner(color, column, row)
+        is_horizontal_win = self.is_horizontal_winner(color, column, row)
+        is_diagonal_win = self.is_diagonal_winner(color, column, row)
+        return is_vertical_win or is_horizontal_win or is_diagonal_win
 
-    def is_vertical_win(self, color):
-        played_pieces = self.game_board.get_played_pieces(color)
-        for column in self.pieces:
-            consecutive_pieces = 0
-            for piece in column:
-                if piece == color:
-                    played_pieces -= 1
-                    consecutive_pieces += 1
-                    if consecutive_pieces >= 4:
-                        return True
-                    if played_pieces + consecutive_pieces < 4:
-                        return False
-                else:
-                    consecutive_pieces = 0
-                if piece == GameBoard.EMPTY_PIECE:
-                    break
+    def get_row(self, column):
+        row = self.game_board.get_first_empty_row(column)
+        row = self.total_rows - 1 if row is None else row - 1
+        return row
+
+    def is_vertical_winner(self, color, move, row):
+        pieces = self.pieces[move]
+        consecutive = 0
+        for piece_index in reversed(range(0, row)):
+            piece = pieces[piece_index]
+            if piece == color:
+                consecutive += 1
+            else:
+                return False
+            if consecutive == 3:
+                return True
         return False
 
-    def is_horizontal_win(self, color):
-        # Run through the 4th because it must contain one of the winning pieces
-        column = 3
-        for row in range(self.total_rows):
-            if self.pieces[column][row] == color:
-                west = self.get_west_pieces(color, column, row)
-                east = self.get_east_pieces(color, column, row)
-                total = west + 1 + east
-                if total >= 4:
-                    return True
-        return False
+    def is_horizontal_winner(self, color, column, row):
+        west = self.get_west_pieces(color, column, row)
+        east = self.get_east_pieces(color, column, row)
+        return west + 1 + east >= 4
 
     def get_west_pieces(self, color, column, row):
         consecutive_pieces = 0
@@ -68,15 +55,6 @@ class WinnerCalculator:
             else:
                 break
         return consecutive_pieces
-
-    def is_diagonal_win(self, color):
-        # The 4th row must contain one of the winning pieces in a diagonal win
-        row = 3
-        for column in range(0, self.total_columns):
-            if self.pieces[column][row] == color:
-                if self.is_diagonal_winner(color, column, row):
-                    return True
-        return False
 
     def is_diagonal_winner(self, color, column, row):
         nw = self.get_nw_pieces(color, column, row)
