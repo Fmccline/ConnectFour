@@ -23,6 +23,8 @@ class GameBoard:
             self.pieces.append(column)
 
     def can_make_move(self, column):
+        if column is None:
+            return False
         if column < 0 or column >= self.num_columns:
             return False
         top_row = self.num_rows - 1

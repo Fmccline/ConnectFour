@@ -3,8 +3,8 @@ import time
 import random
 
 from GameManager import GameManager
-from HeuristicPlayer import HeuristicPlayer
-from Player import Player
+from MinimaxAgent import MinimaxAgent
+from Agent import Agent
 from GameBoard import GameBoard
 from HeuristicEvaluator import HeuristicEvaluator
 from WinnerCalculator import WinnerCalculator
@@ -39,8 +39,8 @@ class TimingTest:
 
     def get_move_evaluations_per_second(self, num_boards, iterations):
         game_boards = self.create_random_game_boards(num_boards)
-        color = Player.RED_PLAYER
-        evaluator = HeuristicEvaluator(game_boards[0], color)
+        color = Agent.RED_PLAYER
+        evaluator = HeuristicEvaluator()
         t0 = time.time()
         for iteration in range(iterations):
             for game_board in game_boards:
@@ -84,7 +84,7 @@ class TimingTest:
         game_boards = self.create_random_game_boards(num_boards)
         t0 = time.time()
         for game_board in game_boards:
-            agent = HeuristicPlayer(Player.RED_PLAYER, game_board)
+            agent = MinimaxAgent(Agent.RED_PLAYER, game_board)
             agent.take_turn(game_board)
         t1 = time.time()
         total_time = t1 - t0
@@ -95,8 +95,8 @@ class TimingTest:
     def get_games_run_per_second(self, num_games):
         game_board = GameBoard(self.num_columns, self.num_rows)
         game_manager = GameManager()
-        red_player = HeuristicPlayer(Player.RED_PLAYER, game_board)
-        black_player = HeuristicPlayer(Player.BLACK_PLAYER, game_board)
+        red_player = MinimaxAgent(Agent.RED_PLAYER, game_board)
+        black_player = MinimaxAgent(Agent.BLACK_PLAYER, game_board)
         t0 = time.time()
         game_num = 1
         for game in range(num_games):

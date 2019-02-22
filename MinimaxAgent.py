@@ -1,30 +1,27 @@
 import copy
 
 from HeuristicEvaluator import HeuristicEvaluator
-from Player import Player
+from Agent import Agent
 from WinnerCalculator import WinnerCalculator
 
 
-class HeuristicPlayer(Player):
+class MinimaxAgent(Agent):
 
     TURNS_AHEAD = 3
 
-    def __init__(self, color, game_board):
-        super().__init__(color, game_board)
-        self.num_columns, self.num_rows = self.game_board.get_board_size()
-        self.evaluator = HeuristicEvaluator(self.game_board, color)
+    def __init__(self, color):
+        super().__init__(color)
+        self.evaluator = HeuristicEvaluator()
         self.winner_calculator = WinnerCalculator()
 
-    def take_turn(self, game_board):
-        self.game_board = game_board
-        best_move, score = self.get_best_move_and_score()
-        game_board.make_move(best_move, self.color)
+    def get_move(self, game_board):
+        best_move, score = self.get_best_move_and_score(game_board)
         print(f"Best move: ({best_move}, {score})")
-        return True
+        return best_move
 
-    def get_best_move_and_score(self):
+    def get_best_move_and_score(self, game_board):
         depth = self.TURNS_AHEAD * 2
-        return self.minimax(self.game_board, self.color, depth,
+        return self.minimax(game_board, self.color, depth,
                             HeuristicEvaluator.NEG_INFINITY, HeuristicEvaluator.INFINITY)
 
     def minimax(self, game_board, color, depth, alpha, beta, original_move=None):
@@ -47,7 +44,7 @@ class HeuristicPlayer(Player):
                 board_score = HeuristicEvaluator.WINNING_VALUE * player_modifier
                 return starting_move, board_score
 
-            new_color = Player.RED_PLAYER if color == Player.BLACK_PLAYER else Player.BLACK_PLAYER
+            new_color = Agent.RED_PLAYER if color == Agent.BLACK_PLAYER else Agent.BLACK_PLAYER
             starting_move, board_score = self.minimax(new_board, new_color, depth - 1, alpha, beta, starting_move)
             possible_moves.append((starting_move, board_score))
             if is_max and board_score > best_score:

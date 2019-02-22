@@ -2,7 +2,7 @@ from tkinter import Button, Label, Tk, messagebox
 
 from GameBoardView import GameBoardView
 from GameManager import GameManager
-from Player import Player
+from Agent import Agent
 from PlayerFactory import PlayerFactory
 from PlayerSelectionView import PlayerSelectionView
 
@@ -14,8 +14,8 @@ class GameManagerView:
     def __init__(self):
         self.window = self.make_window()
         self.make_title_view()
-        self.red_player_selection = PlayerSelectionView(self.window, Player.RED_PLAYER)
-        self.black_player_selection = PlayerSelectionView(self.window, Player.BLACK_PLAYER)
+        self.red_player_selection = PlayerSelectionView(self.window, Agent.RED_PLAYER)
+        self.black_player_selection = PlayerSelectionView(self.window, Agent.BLACK_PLAYER)
         self.start_button = Button(self.window, text='New Game', command=self.new_game)
         self.start_button.pack()
         self.current_turn_view = Label(self.window, text="Turn: N/A")
@@ -40,8 +40,8 @@ class GameManagerView:
     def get_player_selections(self):
         red_player_type = self.red_player_selection.get_player_from_selection()
         black_player_type = self.black_player_selection.get_player_from_selection()
-        red_player = PlayerFactory.make_player(red_player_type, Player.RED_PLAYER, self.game_board_view)
-        black_player = PlayerFactory.make_player(black_player_type, Player.BLACK_PLAYER, self.game_board_view)
+        red_player = PlayerFactory.make_player(red_player_type, Agent.RED_PLAYER, self.game_board_view)
+        black_player = PlayerFactory.make_player(black_player_type, Agent.BLACK_PLAYER, self.game_board_view)
         return red_player, black_player
 
     def main_loop(self):

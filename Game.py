@@ -14,9 +14,11 @@ class Game:
         self.winner_calculator = WinnerCalculator()
 
     def take_turn(self):
+        game_board = self.game_board
         current_player = self.current_player
-        turn_taken = current_player.take_turn(self.game_board)
-        if turn_taken is True:
+        move = current_player.get_move(game_board)
+        if game_board.can_make_move(move):
+            game_board.make_move(move, current_player.color)
             if self.is_winner(current_player):
                 return self.current_player
             else:

@@ -1,20 +1,19 @@
-from HeuristicPlayer import HeuristicPlayer
-from HumanPlayer import HumanPlayer
+from MinimaxAgent import MinimaxAgent
+from HumanAgent import HumanAgent
 from PlayerSelectionView import PlayerSelectionView
-from RandomPlayer import RandomPlayer
+from RandomAgent import RandomAgent
 
 
 class PlayerFactory:
 
     @staticmethod
     def make_player(player_type, color, game_board_view):
-        game_board = game_board_view.game_board
         if player_type == PlayerSelectionView.HUMAN:
-            return HumanPlayer(color, game_board_view)
+            return HumanAgent(color, game_board_view)
         elif player_type == PlayerSelectionView.RANDOM:
-            return RandomPlayer(color, game_board)
+            return RandomAgent(color)
         elif player_type == PlayerSelectionView.HEURISTIC:
-            return HeuristicPlayer(color, game_board)
+            return MinimaxAgent(color)
         else:
             raise Exception("Invalid player type :O " + str(player_type))
 

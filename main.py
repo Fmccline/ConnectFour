@@ -6,9 +6,10 @@ def run_timing_tests():
     num_columns = 7
     num_rows = 6
     test = TimingTest(num_columns, num_rows)
-    #run_evaluations_per_second_test(test)
+    # run_evaluations_per_second_test(test)
     run_agent_evaluations_per_second_test(test)
-    #run_games_per_second_test(test)
+    # run_games_per_second_test(test)
+
 
 def run_evaluations_per_second_test(test):
     num_boards = 1000

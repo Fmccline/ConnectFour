@@ -10,10 +10,11 @@ class HeuristicEvaluator:
 
     WINNING_VALUE = 100000000000000
 
-    def __init__(self, game_board, color):
-        self.pieces = game_board.get_pieces()
-        self.color = color
-        self.num_columns, self.num_rows = game_board.get_board_size()
+    def __init__(self):
+        self.color = None
+        self.pieces = None
+        self.num_columns = None
+        self.num_rows = None
         self.consecutive_pieces = 0
         self.player_pieces = 0
         self.last_player_piece = None
@@ -22,6 +23,7 @@ class HeuristicEvaluator:
     def get_board_evaluation(self, game_board, color):
         self.pieces = game_board.get_pieces()
         self.color = color
+        self.num_columns, self.num_rows = game_board.get_board_size()
         self.reset_consecutive_pieces()
         vertical_evaluations = self.get_vertical_evaluations()
         horizontal_evaluations = self.get_horizontal_evaluations()

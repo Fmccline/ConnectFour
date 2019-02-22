@@ -1,6 +1,6 @@
 from tkinter import Tk, StringVar, OptionMenu, Frame, LEFT, Label
 
-from Player import Player
+from Agent import Agent
 
 
 class PlayerSelectionView:
@@ -16,7 +16,7 @@ class PlayerSelectionView:
         self.player_selection = StringVar(window)
         self.player_selection.set(self.PLAYER_TYPES[0])
         self.selection_frame = Frame(window)
-        text = ('Red' if color == Player.RED_PLAYER else 'Black') + ' Player: '
+        text = ('Red' if color == Agent.RED_PLAYER else 'Black') + ' Player: '
         self.name_label = Label(self.selection_frame, text=text)
         self.name_label.pack(side=LEFT)
         self.option_menu = OptionMenu(self.selection_frame, self.player_selection, *self.PLAYER_TYPES)
