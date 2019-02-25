@@ -16,13 +16,14 @@ class GameManagerView:
         self.make_title_view()
         self.red_player_selection = PlayerSelectionView(self.window, Agent.RED_PLAYER)
         self.black_player_selection = PlayerSelectionView(self.window, Agent.BLACK_PLAYER)
-        self.start_button = Button(self.window, text='New Game', command=self.new_game)
-        self.start_button.pack()
+        self.new_game_button = Button(self.window, text='New Game', command=self.start_new_game)
+        self.new_game_button.pack()
         self.current_turn_view = Label(self.window, text="Turn: N/A")
         self.current_turn_view.pack()
         self.game_manager = GameManager()
         self.game_board_view = GameBoardView(self.window, self.game_manager.game_board)
-        self.new_game = False
+        self.is_new_game = False
+        self.is_playing = False
 
     def make_window(self):
         window = Tk()
@@ -34,8 +35,8 @@ class GameManagerView:
         title_label = Label(self.window, text='Connect FooooR')
         title_label.pack()
 
-    def new_game(self):
-        self.new_game = True
+    def start_new_game(self):
+        self.is_new_game = True
 
     def get_player_selections(self):
         red_player_type = self.red_player_selection.get_player_from_selection()
@@ -49,8 +50,8 @@ class GameManagerView:
         game_manager = self.game_manager
         window = self.window
         while True:
-            if self.new_game:
-                self.new_game = False
+            if self.is_new_game:
+                self.is_new_game = False
                 red_player, black_player = self.get_player_selections()
                 game_manager.start_new_game(red_player, black_player)
             if game_manager.is_playing():
