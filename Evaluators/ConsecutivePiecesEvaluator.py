@@ -1,14 +1,9 @@
+from Evaluators.BoardEvaluator import BoardEvaluator
 from GameBoard import GameBoard
 from collections import deque
-import math
 
 
-class HeuristicEvaluator:
-
-    INFINITY = math.inf
-    NEG_INFINITY = -INFINITY
-
-    WINNING_VALUE = 100000000000000
+class ConsecutivePiecesEvaluator(BoardEvaluator):
 
     def __init__(self):
         self.color = None
@@ -20,7 +15,7 @@ class HeuristicEvaluator:
         self.last_player_piece = None
         self.pieces_queue = deque()
 
-    def get_board_evaluation(self, game_board, color):
+    def get_board_evaluation(self, game_board, last_move, color):
         self.pieces = game_board.get_pieces()
         self.color = color
         self.num_columns, self.num_rows = game_board.get_board_size()

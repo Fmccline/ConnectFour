@@ -7,20 +7,22 @@ class GameBoard:
     def __init__(self, num_columns, num_rows):
         self.num_columns = num_columns
         self.num_rows = num_rows
-        self.pieces = []
-        self.black_pieces = 0
-        self.red_pieces = 0
+        self.pieces = None
+        self.total_pieces = 0
         self.reset_board()
 
     def reset_board(self):
-        self.pieces = []
-        self.black_pieces = 0
-        self.red_pieces = 0
-        for column_num in range(self.num_columns):
-            column = []
-            for row_num in range(self.num_rows):
-                column.append(self.EMPTY_PIECE)
-            self.pieces.append(column)
+        self.total_pieces = 0
+        self.pieces = [[self.EMPTY_PIECE for _ in range(self.num_rows)] for _ in range(self.num_columns)]
+
+    def get_num_columns(self):
+        return self.num_columns
+
+    def get_num_rows(self):
+        return self.num_rows
+
+    def get_board_size(self):
+        return self.get_num_columns(), self.get_num_rows()
 
     def can_make_move(self, column):
         if column is None:
@@ -39,11 +41,10 @@ class GameBoard:
 
     def make_move(self, column, player_color):
         row = self.get_first_empty_row(column)
+        if row is None:
+            raise Exception(f"Row is none given column {column}")
         self.pieces[column][row] = player_color
-        if player_color == self.RED_PIECE:
-            self.red_pieces += 1
-        elif player_color == self.BLACK_PIECE:
-            self.black_pieces += 1
+        self.total_pieces += 1
 
     def get_first_empty_row(self, column):
         if column is None:
@@ -54,6 +55,14 @@ class GameBoard:
                 return row
         return None
 
+    def get_row(self, column):
+        row = self.get_first_empty_row(column)
+        row = self.num_rows - 1 if row is None else row - 1
+        return row
+
+    def get_piece(self, column, row):
+        return self.pieces[column][row]
+
     def print_board(self):
         pieces = self.pieces
         for y in range(self.num_rows - 1, -1, -1):
@@ -62,32 +71,8 @@ class GameBoard:
             print()
 
     def is_full_board(self):
-        total_pieces = self.red_pieces + self.black_pieces
         board_size = self.num_columns * self.num_rows
-        return total_pieces >= board_size
+        return self.total_pieces >= board_size
 
     def get_pieces(self):
         return self.pieces
-
-    def get_played_pieces(self, color):
-        if color == self.RED_PIECE:
-            return self.get_red_pieces()
-        elif color == self.BLACK_PIECE:
-            return self.get_black_pieces()
-        else:
-            raise Exception(f"Invalid color type {color} in get_played_pieces")
-
-    def get_black_pieces(self):
-        return self.black_pieces
-
-    def get_red_pieces(self):
-        return self.red_pieces
-
-    def get_num_columns(self):
-        return self.num_columns
-
-    def get_num_rows(self):
-        return self.num_rows
-
-    def get_board_size(self):
-        return self.get_num_columns(), self.get_num_rows()

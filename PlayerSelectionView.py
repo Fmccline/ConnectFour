@@ -7,8 +7,10 @@ class PlayerSelectionView:
 
     HUMAN = 'Human'
     RANDOM = 'Random'
-    HEURISTIC = 'Heuristic'
-    PLAYER_TYPES = [HEURISTIC, HUMAN, RANDOM]
+    BOARD_HEURISTIC = 'Consecutive Pieces Heuristic'
+    MOVE_HEURISTIC = 'Num Wins Heuristic'
+
+    PLAYER_TYPES = [BOARD_HEURISTIC, MOVE_HEURISTIC, HUMAN, RANDOM]
 
     def __init__(self, window: Tk, color):
         self.window = window
