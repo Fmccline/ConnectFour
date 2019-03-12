@@ -1,3 +1,5 @@
+from copy import copy
+
 
 class GameBoard:
     EMPTY_PIECE = 0
@@ -11,9 +13,17 @@ class GameBoard:
         self.total_pieces = 0
         self.reset_board()
 
+    def make_copy(self):
+        pieces = self.pieces.copy()
+        total_pieces = copy(self.total_pieces)
+        game_board = GameBoard(self.num_columns, self.num_rows)
+        game_board.pieces = pieces
+        game_board.total_pieces = total_pieces
+        return game_board
+
     def reset_board(self):
         self.total_pieces = 0
-        self.pieces = [[self.EMPTY_PIECE for _ in range(self.num_rows)] for _ in range(self.num_columns)]
+        self.pieces = [self.EMPTY_PIECE] * (self.num_columns * self.num_rows)
 
     def get_num_columns(self):
         return self.num_columns
@@ -30,7 +40,7 @@ class GameBoard:
         if column < 0 or column >= self.num_columns:
             return False
         top_row = self.num_rows - 1
-        return self.pieces[column][top_row] == self.EMPTY_PIECE
+        return self.get_piece(column, top_row) == self.EMPTY_PIECE
 
     def get_all_possible_moves(self):
         moves = []
@@ -43,15 +53,15 @@ class GameBoard:
         row = self.get_first_empty_row(column)
         if row is None:
             raise Exception(f"Row is none given column {column}")
-        self.pieces[column][row] = player_color
+        index = self.get_piece_index(column, row)
+        self.pieces[index] = player_color
         self.total_pieces += 1
 
     def get_first_empty_row(self, column):
         if column is None:
             raise Exception("Column cannot be None!")
-        pieces = self.pieces
         for row in range(self.num_rows):
-            if pieces[column][row] == GameBoard.EMPTY_PIECE:
+            if self.get_piece(column, row) == GameBoard.EMPTY_PIECE:
                 return row
         return None
 
@@ -61,18 +71,19 @@ class GameBoard:
         return row
 
     def get_piece(self, column, row):
-        return self.pieces[column][row]
+        index = self.get_piece_index(column, row)
+        return self.pieces[index]
+
+    def get_piece_index(self, column, row):
+        index = column * self.num_rows + row
+        return index
 
     def print_board(self):
-        pieces = self.pieces
         for y in range(self.num_rows - 1, -1, -1):
             for x in range(self.num_columns):
-                print(str(pieces[x][y]) + ' ', end='')
+                print(str(self.get_piece(x, y)) + ' ', end='')
             print()
 
     def is_full_board(self):
         board_size = self.num_columns * self.num_rows
         return self.total_pieces >= board_size
-
-    def get_pieces(self):
-        return self.pieces

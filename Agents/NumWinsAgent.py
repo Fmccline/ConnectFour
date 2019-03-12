@@ -6,4 +6,5 @@ class NumWinsAgent(MinimaxAgent):
 
     def __init__(self, color):
         super().__init__(color)
+        self.TURNS_AHEAD = 4
         self.evaluator = NumWinsEvaluator()

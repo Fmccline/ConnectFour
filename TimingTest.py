@@ -4,7 +4,6 @@ import random
 
 from Agents.NumWinsAgent import NumWinsAgent
 from GameManager import GameManager
-from Agents.MinimaxAgent import MinimaxAgent
 from Agents.Agent import Agent
 from GameBoard import GameBoard
 from Evaluators.ConsecutivePiecesEvaluator import ConsecutivePiecesEvaluator
@@ -118,9 +117,10 @@ class TimingTest:
     def get_board_creations_per_second(self, num_boards):
         boards = []
         board = GameBoard(self.num_columns, self.num_rows)
+        # board = [GameBoard.EMPTY_PIECE] * self.num_columns * self.num_rows
         t0 = time.time()
         for _ in range(num_boards):
-            new_board = copy.deepcopy(board)
+            new_board = copy.copy(board)
             boards.append(new_board)
         t1 = time.time()
         total_time = t1 - t0

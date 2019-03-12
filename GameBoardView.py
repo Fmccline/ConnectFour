@@ -17,11 +17,11 @@ class GameBoardView:
 
     def create_board(self):
         num_columns, num_rows = self.game_board.get_board_size()
-        pieces = self.game_board.get_pieces()
         for x in range(num_columns):
             piece_view_column = []
             for y in range(num_rows):
-                image = self.get_piece_image(pieces[x][y])
+                piece = self.game_board.get_piece(x, y)
+                image = self.get_piece_image(piece)
                 button = Button(self.board_view, image=image)
                 button.config(command=lambda column=x: self.clicked(column))
                 button.grid(column=x, row=num_rows - y - 1)
@@ -51,9 +51,9 @@ class GameBoardView:
 
     def update_board(self):
         num_columns, num_rows = self.game_board.get_board_size()
-        pieces = self.game_board.get_pieces()
         for x in range(num_columns):
             for y in range(num_rows):
-                image = self.get_piece_image(pieces[x][y])
+                piece = self.game_board.get_piece(x, y)
+                image = self.get_piece_image(piece)
                 button = self.piece_views[x][y]
                 button.config(image=image)

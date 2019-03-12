@@ -6,17 +6,18 @@ from WinnerCalculator import WinnerCalculator
 
 
 class MinimaxAgent(Agent):
-    TURNS_AHEAD = 3
 
     def __init__(self, color):
         super().__init__(color)
+        self.TURNS_AHEAD = None
         self.evaluator = None
         self.winner_calculator = WinnerCalculator()
         self.total_evaluations = 0
 
     def get_move(self, game_board):
         best_move, score = self.get_best_move_and_score(game_board)
-        print(f"Best move: ({best_move}, {score})")
+        color_name = "RED" if self.color == Agent.RED_PLAYER else "BLACK"
+        print(f"{color_name}'s best move: ({best_move}, {score})")
         return best_move
 
     def get_best_move_and_score(self, game_board):
@@ -31,7 +32,7 @@ class MinimaxAgent(Agent):
         moves = game_board.get_all_possible_moves()
         if depth == 0 or not moves:
             self.total_evaluations += 1
-            board_score = self.evaluator.get_board_evaluation(game_board, last_move, color)
+            board_score = self.evaluator.get_board_evaluation(game_board, last_move, self.color)
             return original_move, board_score
 
         is_max = color == self.color
@@ -40,7 +41,7 @@ class MinimaxAgent(Agent):
         best_move = None
         possible_moves = []
         for move in moves:
-            new_board = copy.deepcopy(game_board)
+            new_board = game_board.make_copy()
             new_board.make_move(move, color)
             starting_move = move if original_move is None else original_move
             if self.winner_calculator.is_winner(color, new_board, move):

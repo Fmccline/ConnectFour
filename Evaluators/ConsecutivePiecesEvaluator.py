@@ -7,7 +7,7 @@ class ConsecutivePiecesEvaluator(BoardEvaluator):
 
     def __init__(self):
         self.color = None
-        self.pieces = None
+        self.game_board = None
         self.num_columns = None
         self.num_rows = None
         self.consecutive_pieces = 0
@@ -16,7 +16,7 @@ class ConsecutivePiecesEvaluator(BoardEvaluator):
         self.pieces_queue = deque()
 
     def get_board_evaluation(self, game_board, last_move, color):
-        self.pieces = game_board.get_pieces()
+        self.game_board = game_board
         self.color = color
         self.num_columns, self.num_rows = game_board.get_board_size()
         self.reset_consecutive_pieces()
@@ -105,7 +105,7 @@ class ConsecutivePiecesEvaluator(BoardEvaluator):
 
     def get_board_score(self, column, row):
         score = 0
-        piece = self.pieces[column][row]
+        piece = self.game_board.get_piece(column, row)
         self.pieces_queue.append(piece)
         last_player_piece = self.last_player_piece
         if piece == last_player_piece or piece == GameBoard.EMPTY_PIECE:

@@ -6,4 +6,5 @@ class WholeBoardAgent(MinimaxAgent):
 
     def __init__(self, color):
         super().__init__(color)
+        self.TURNS_AHEAD = 3
         self.evaluator = ConsecutivePiecesEvaluator()

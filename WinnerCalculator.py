@@ -5,12 +5,10 @@ class WinnerCalculator:
 
     def __init__(self):
         self.game_board = None
-        self.pieces = None
         self.total_columns, self.total_rows = 0, 0
 
     def is_winner(self, color, game_board, last_move):
         self.game_board = game_board
-        self.pieces = game_board.get_pieces()
         self.total_columns, self.total_rows = game_board.get_board_size()
         row = game_board.get_row(last_move)
         is_vertical_win = self.is_vertical_winner(color, last_move, row)

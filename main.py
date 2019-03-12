@@ -19,7 +19,7 @@ def run_agent_evaluations_per_second_test(test):
 
 
 def run_games_per_second_test(test):
-    num_games = 10
+    num_games = 5
     test.print_games_per_second(num_games)
 
 
@@ -34,15 +34,14 @@ def run_timing_tests(timing_tests):
 
 if __name__ == '__main__':
     timing_tests = {
-        run_evaluations_per_second_test: False,
-        run_board_creations_per_second_test: False,
+        run_evaluations_per_second_test: True,
+        run_board_creations_per_second_test: True,
         run_agent_evaluations_per_second_test: False,
-        run_games_per_second_test: True
+        run_games_per_second_test: False
     }
-
-    RUN_TESTS = False
-    if RUN_TESTS:
+    RUN_TEST = True
+    if RUN_TEST:
         run_timing_tests(timing_tests)
-    else:
-        gm = GameManagerView()
-        gm.main_loop()
+
+    gm = GameManagerView()
+    gm.main_loop()
