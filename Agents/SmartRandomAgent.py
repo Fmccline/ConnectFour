@@ -21,8 +21,6 @@ class SmartRandomAgent(Agent):
         else:
             while game_board.can_make_move(column) is False:
                 column = random.randint(0, num_columns)
-        color_name = "RED" if self.color == Agent.RED_PLAYER else "BLACK"
-        print(f"{color_name}'s best move: {column}")
         return column
 
     def get_winning_move(self, game_board):

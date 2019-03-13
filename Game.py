@@ -1,3 +1,4 @@
+from Agents.Agent import Agent
 from GameBoard import GameBoard
 from WinnerCalculator import WinnerCalculator
 
@@ -19,6 +20,8 @@ class Game:
         move = current_player.get_move(game_board)
         if game_board.can_make_move(move):
             game_board.make_move(move, current_player.color)
+            color_name = "RED" if current_player.color == Agent.RED_PLAYER else "BLACK"
+            print(f"{color_name}'s best move: {move}")
             if self.is_winner(current_player, move):
                 return self.current_player
             else:

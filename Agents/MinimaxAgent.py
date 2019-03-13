@@ -26,7 +26,7 @@ class MinimaxAgent(Agent):
     def get_move(self, game_board):
         best_move, score = self.get_best_move_and_score(game_board)
         color_name = "RED" if self.color == Agent.RED_PLAYER else "BLACK"
-        print(f"{color_name}'s best move: ({best_move}, {score})")
+        # print(f"{color_name}'s best move: ({best_move}, {score})")
         return best_move
 
     def get_best_move_and_score(self, game_board):
@@ -34,7 +34,7 @@ class MinimaxAgent(Agent):
         depth = self.TURNS_AHEAD * 2
         best_move, score = self.minimax(game_board, self.color, depth,
                                         ConsecutivePiecesEvaluator.NEG_INFINITY, ConsecutivePiecesEvaluator.INFINITY)
-        print(f'Total Evaluations: {self.total_evaluations} out of a max {7**depth}')
+        # print(f'Total Evaluations: {self.total_evaluations} out of a max {7**depth}')
         self.scores.append(score)
         self.evaluations.append(self.total_evaluations)
         return best_move, score
