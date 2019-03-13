@@ -117,10 +117,9 @@ class TimingTest:
     def get_board_creations_per_second(self, num_boards):
         boards = []
         board = GameBoard(self.num_columns, self.num_rows)
-        # board = [GameBoard.EMPTY_PIECE] * self.num_columns * self.num_rows
         t0 = time.time()
         for _ in range(num_boards):
-            new_board = copy.copy(board)
+            new_board = board.make_copy()
             boards.append(new_board)
         t1 = time.time()
         total_time = t1 - t0

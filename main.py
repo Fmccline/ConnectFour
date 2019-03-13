@@ -1,15 +1,16 @@
+from ChartCreator import ChartCreator
 from GameManagerView import GameManagerView
 from TimingTest import TimingTest
 
 
 def run_evaluations_per_second_test(test):
-    num_boards = 100
-    iterations = 50
+    num_boards = 500
+    iterations = 100
     test.print_evaluations_per_second(num_boards, iterations)
 
 
 def run_board_creations_per_second_test(test):
-    num_boards = 7 ** 6
+    num_boards = 7 ** 7
     test.print_board_creations_per_second(num_boards)
 
 
@@ -32,6 +33,13 @@ def run_timing_tests(timing_tests):
             timing_test(test)
 
 
+def make_charts():
+    file_name = 'charts.csv'
+    num_games = 10
+    chart_creator = ChartCreator()
+    chart_creator.make_charts(num_games, file_name)
+
+
 if __name__ == '__main__':
     timing_tests = {
         run_evaluations_per_second_test: True,
@@ -39,9 +47,14 @@ if __name__ == '__main__':
         run_agent_evaluations_per_second_test: False,
         run_games_per_second_test: False
     }
-    RUN_TEST = True
+    RUN_TEST = False
+    PLAY_GAME = True
+    MAKE_CHARTS = False
+
     if RUN_TEST:
         run_timing_tests(timing_tests)
-
-    gm = GameManagerView()
-    gm.main_loop()
+    if PLAY_GAME:
+        gm = GameManagerView()
+        gm.main_loop()
+    if MAKE_CHARTS:
+        make_charts()

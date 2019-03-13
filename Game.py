@@ -30,4 +30,3 @@ class Game:
         # return self.winner_calculator.is_winner(color, self.game_board)
         return self.winner_calculator.is_winner(color, self.game_board, move)
 
-

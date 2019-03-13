@@ -13,6 +13,15 @@ class MinimaxAgent(Agent):
         self.evaluator = None
         self.winner_calculator = WinnerCalculator()
         self.total_evaluations = 0
+        self.scores = []
+        self.evaluations = []
+
+    def get_score_and_evaluations(self):
+        return self.scores, self.evaluations
+
+    def reset_scores(self):
+        self.scores = []
+        self.evaluations = []
 
     def get_move(self, game_board):
         best_move, score = self.get_best_move_and_score(game_board)
@@ -26,6 +35,8 @@ class MinimaxAgent(Agent):
         best_move, score = self.minimax(game_board, self.color, depth,
                                         ConsecutivePiecesEvaluator.NEG_INFINITY, ConsecutivePiecesEvaluator.INFINITY)
         print(f'Total Evaluations: {self.total_evaluations} out of a max {7**depth}')
+        self.scores.append(score)
+        self.evaluations.append(self.total_evaluations)
         return best_move, score
 
     def minimax(self, game_board, color, depth, alpha, beta, last_move=None, original_move=None):

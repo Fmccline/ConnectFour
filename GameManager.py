@@ -41,4 +41,3 @@ class GameManager:
 
     def get_current_player(self):
         return self.game.current_player
-

@@ -1,6 +1,7 @@
 from Agents.NumWinsAgent import NumWinsAgent
 from Agents.HumanAgent import HumanAgent
 from Agents.ConsecutivePiecesAgent import WholeBoardAgent
+from Agents.SmartRandomAgent import SmartRandomAgent
 from PlayerSelectionView import PlayerSelectionView
 from Agents.RandomAgent import RandomAgent
 
@@ -17,6 +18,8 @@ class PlayerFactory:
             return WholeBoardAgent(color)
         if player_type == PlayerSelectionView.MOVE_HEURISTIC:
             return NumWinsAgent(color)
+        if player_type == PlayerSelectionView.SMART_RANDOM:
+            return SmartRandomAgent(color)
         else:
             raise Exception("Invalid player type :O " + str(player_type))
 
